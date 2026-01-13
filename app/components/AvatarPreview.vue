@@ -56,12 +56,13 @@ const beard = computed(() => props.avatar?.beard ? getBeardData(props.avatar.bea
 const accessory = computed(() => props.avatar?.accessory ? getAccessoryData(props.avatar.accessory) : null)
 
 // Color mappings for each part
+// Use topColor for both topColor and pantsColor (outfit color)
 const bodyColors = computed(() => {
   if (!props.avatar) return {} as Record<string, string>
   return {
     skinColor: props.avatar.skinColor,
     topColor: props.avatar.topColor,
-    pantsColor: props.avatar.pantsColor,
+    pantsColor: props.avatar.topColor, // Use same color for outfit
     shoesColor: props.avatar.shoesColor,
     outlineColor: '#000000',
   }

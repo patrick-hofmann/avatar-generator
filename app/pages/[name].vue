@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvatarUpdate } from '../../shared/types/avatar'
-import { categories } from '../composables/useAvatarOptions'
+import { categories, getPoseFromBody, getOutfitStyleFromBody, combineBodyName } from '../composables/useAvatarOptions'
 
 const route = useRoute()
 const name = computed(() => route.params.name as string)
@@ -13,7 +13,17 @@ const currentCategory = computed(() => categories[currentCategoryIndex.value]!)
 // Get the current value for the selected category
 const currentValue = computed(() => {
   if (!avatar.value || !currentCategory.value) return ''
-  return avatar.value[currentCategory.value.key as keyof typeof avatar.value] as string
+  const key = currentCategory.value.key
+
+  // Handle virtual pose/outfitStyle categories
+  if (key === 'pose') {
+    return getPoseFromBody(avatar.value.body)
+  }
+  if (key === 'outfitStyle') {
+    return getOutfitStyleFromBody(avatar.value.body)
+  }
+
+  return avatar.value[key as keyof typeof avatar.value] as string
 })
 
 // Check if current category is a color category
@@ -28,8 +38,24 @@ function selectCategory(index: number) {
 }
 
 function handlePartUpdate(value: string) {
-  if (!currentCategory.value) return
-  updateAvatar(currentCategory.value.key as keyof AvatarUpdate, value)
+  if (!currentCategory.value || !avatar.value) return
+  const key = currentCategory.value.key
+
+  // Handle virtual pose/outfitStyle categories
+  if (key === 'pose') {
+    const currentOutfit = getOutfitStyleFromBody(avatar.value.body)
+    const newBody = combineBodyName(value, currentOutfit)
+    updateAvatar('body', newBody)
+    return
+  }
+  if (key === 'outfitStyle') {
+    const currentPose = getPoseFromBody(avatar.value.body)
+    const newBody = combineBodyName(currentPose, value)
+    updateAvatar('body', newBody)
+    return
+  }
+
+  updateAvatar(key as keyof AvatarUpdate, value)
 }
 </script>
 

@@ -2,15 +2,30 @@ import type { AvatarUpdate } from '../../shared/types/avatar'
 import indexData from '../assets/open-peeps/index.json'
 
 export interface AvatarCategory {
-  key: keyof AvatarUpdate
+  key: keyof AvatarUpdate | 'pose' | 'outfitStyle'
   label: string
   icon: string
   options: string[]
   colorKey?: keyof AvatarUpdate
 }
 
-// Body options (standing poses) - filter for ColorPants versions (shirt is colorable)
-const bodyOptions = indexData.bodyStanding.filter(b => b.includes('ColorPants'))
+// Extract pose names from body options (remove ColorPants/ColorTee suffix)
+const poseNames = [...new Set(
+  indexData.bodyStanding
+    .filter(b => b.includes('ColorPants') || b.includes('ColorTee'))
+    .map(b => b.replace(/Color(Pants|Tee)$/, '')),
+)]
+
+// Outfit styles
+const outfitStyles = ['ColorPants', 'ColorTee']
+
+// Special bodies without color variants
+const specialBodies = indexData.bodyStanding.filter(
+  b => !b.includes('ColorPants') && !b.includes('ColorTee'),
+)
+
+// All body options for validation
+const bodyOptions = indexData.bodyStanding
 
 // Head/Hair options
 const headOptions = indexData.head
@@ -75,10 +90,16 @@ const shoesColors = [
 
 export const categories: AvatarCategory[] = [
   {
-    key: 'body',
+    key: 'pose',
     label: 'Pose',
     icon: '🧍',
-    options: bodyOptions,
+    options: poseNames,
+  },
+  {
+    key: 'outfitStyle',
+    label: 'Outfit',
+    icon: '👔',
+    options: outfitStyles,
   },
   {
     key: 'head',
@@ -100,8 +121,8 @@ export const categories: AvatarCategory[] = [
   },
   {
     key: 'topColor',
-    label: 'Shirt',
-    icon: '👕',
+    label: 'Farbe',
+    icon: '🎨',
     options: clothingColors,
   },
   {
@@ -131,14 +152,37 @@ export const colorPresets = {
   shoes: shoesColors,
 }
 
+// Helper to extract pose from body name
+export function getPoseFromBody(body: string): string {
+  return body.replace(/Color(Pants|Tee)$/, '')
+}
+
+// Helper to extract outfit style from body name
+export function getOutfitStyleFromBody(body: string): string {
+  if (body.endsWith('ColorPants')) return 'ColorPants'
+  if (body.endsWith('ColorTee')) return 'ColorTee'
+  return 'ColorPants' // default
+}
+
+// Helper to combine pose and outfit style
+export function combineBodyName(pose: string, outfitStyle: string): string {
+  return `${pose}${outfitStyle}`
+}
+
 export function useAvatarOptions() {
   return {
     categories,
     colorPresets,
     bodyOptions,
+    poseNames,
+    outfitStyles,
+    specialBodies,
     headOptions,
     faceOptions,
     beardOptions,
     accessoryOptions,
+    getPoseFromBody,
+    getOutfitStyleFromBody,
+    combineBodyName,
   }
 }
