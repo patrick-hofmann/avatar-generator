@@ -6,6 +6,16 @@ export default defineNuxtConfig({
   // SPA-Modus
   ssr: false,
 
+  // App Head
+  app: {
+    head: {
+      title: 'Avatar Generator',
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+      ],
+    },
+  },
+
   // CSS
   css: ['~/assets/css/main.css'],
 
