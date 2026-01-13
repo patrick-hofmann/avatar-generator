@@ -126,8 +126,8 @@ function handlePartUpdate(value: string) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-md) 0;
-  min-height: 50vh;
+  padding: var(--space-sm) 0;
+  min-height: 0;
 }
 
 .avatar-name {

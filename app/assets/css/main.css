@@ -46,6 +46,7 @@ body {
   color: var(--text-primary);
   min-height: 100dvh;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Large, friendly buttons */

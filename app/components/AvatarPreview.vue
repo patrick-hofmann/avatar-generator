@@ -252,22 +252,35 @@ function getAccessoryOffset(name: string) {
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: manipulation;
 }
 
 .avatar-svg {
   width: 100%;
   max-width: 400px;
+  max-height: 45vh;
   height: auto;
 }
 
 .avatar-placeholder {
-  width: 300px;
-  height: 400px;
+  width: 200px;
+  height: 250px;
   border-radius: var(--radius-lg);
   background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+}
+
+@media (min-width: 640px) {
+  .avatar-svg {
+    max-height: 55vh;
+  }
+
+  .avatar-placeholder {
+    width: 300px;
+    height: 400px;
+  }
 }
 </style>
