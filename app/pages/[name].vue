@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvatarUpdate } from '../../shared/types/avatar'
-import { categories, colorPresets } from '../composables/useAvatarOptions'
+import { categories } from '../composables/useAvatarOptions'
 
 const route = useRoute()
 const name = computed(() => route.params.name as string)
@@ -16,40 +16,11 @@ const currentValue = computed(() => {
   return avatar.value[currentCategory.value.key as keyof typeof avatar.value] as string
 })
 
-// Get the current color value for categories that have colors
-const currentColorValue = computed(() => {
-  if (!avatar.value || !currentCategory.value) return ''
-  // For skinColor category, the value IS the color
-  if (currentCategory.value.key === 'skinColor') {
-    return avatar.value.skinColor
-  }
-  // For other categories, use the colorKey
-  if (!currentCategory.value.colorKey) return ''
-  return avatar.value[currentCategory.value.colorKey as keyof typeof avatar.value] as string
-})
-
-// Get the color presets for the current category
-const currentColorPresets = computed(() => {
-  if (!currentCategory.value) return []
-  const key = currentCategory.value.key
-  if (key === 'skinColor') return colorPresets.skin
-  const colorKey = currentCategory.value.colorKey
-  if (colorKey === 'hairColor') return colorPresets.hair
-  if (colorKey === 'clothingColor') return colorPresets.clothing
-  if (colorKey === 'accessoriesColor') return colorPresets.accessories
-  if (colorKey === 'facialHairColor') return colorPresets.hair
-  return []
-})
-
-// Check if current category is a color-only category (skinColor)
-const isColorOnlyCategory = computed(() => {
-  return currentCategory.value?.key === 'skinColor'
-})
-
-// Check if current category has colors
-const hasColors = computed(() => {
+// Check if current category is a color category
+const isColorCategory = computed(() => {
   if (!currentCategory.value) return false
-  return currentCategory.value.key === 'skinColor' || !!currentCategory.value.colorKey
+  const key = currentCategory.value.key
+  return key === 'skinColor' || key === 'topColor' || key === 'pantsColor' || key === 'shoesColor'
 })
 
 function selectCategory(index: number) {
@@ -59,16 +30,6 @@ function selectCategory(index: number) {
 function handlePartUpdate(value: string) {
   if (!currentCategory.value) return
   updateAvatar(currentCategory.value.key as keyof AvatarUpdate, value)
-}
-
-function handleColorUpdate(color: string) {
-  if (!currentCategory.value) return
-  if (currentCategory.value.key === 'skinColor') {
-    updateAvatar('skinColor', color)
-  }
-  else if (currentCategory.value.colorKey) {
-    updateAvatar(currentCategory.value.colorKey as keyof AvatarUpdate, color)
-  }
 }
 </script>
 
@@ -102,30 +63,13 @@ function handleColorUpdate(color: string) {
 
       <!-- Selectors Container -->
       <section class="selectors">
-        <!-- Style Selector (if not color-only category) -->
-        <div
-          v-if="!isColorOnlyCategory"
-          class="selector"
-        >
+        <div class="selector">
           <PartSelector
             :options="currentCategory.options"
             :value="currentValue"
             :label="currentCategory.label"
+            :is-color="isColorCategory"
             @update="handlePartUpdate"
-          />
-        </div>
-
-        <!-- Color Selector -->
-        <div
-          v-if="hasColors && currentColorPresets.length > 0"
-          class="selector"
-        >
-          <PartSelector
-            :options="currentColorPresets"
-            :value="currentColorValue"
-            label="Farbe"
-            is-color
-            @update="handleColorUpdate"
           />
         </div>
       </section>

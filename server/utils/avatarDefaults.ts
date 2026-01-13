@@ -1,18 +1,15 @@
 import type { Avatar } from '../../shared/types/avatar'
 
 export const defaultAvatarValues: Omit<Avatar, 'name' | 'createdAt' | 'updatedAt'> = {
-  skinColor: '#F5D6C6',
-  eyes: 'default',
-  eyebrows: 'default',
-  mouth: 'smile',
-  top: 'shortFlat',
-  hairColor: '#4A3728',
-  clothing: 'hoodie',
-  clothingColor: '#3498DB',
-  accessories: '',
-  accessoriesColor: '#000000',
-  facialHair: '',
-  facialHairColor: '#4A3728',
+  body: 'RestingColorTee',
+  head: 'ShortOne',
+  face: 'Smile',
+  beard: '',
+  accessory: '',
+  skinColor: '#D08B5B',
+  topColor: '#6B9080',
+  pantsColor: '#3D5A80',
+  shoesColor: '#FFFFFF',
 }
 
 export function createDefaultAvatar(name: string): Avatar {

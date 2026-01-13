@@ -1,4 +1,5 @@
 import type { AvatarUpdate } from '../../shared/types/avatar'
+import indexData from '../assets/open-peeps/index.json'
 
 export interface AvatarCategory {
   key: keyof AvatarUpdate
@@ -8,149 +9,31 @@ export interface AvatarCategory {
   colorKey?: keyof AvatarUpdate
 }
 
-// DiceBear Avataaars options
-const eyeOptions = [
-  'default',
-  'closed',
-  'cry',
-  'eyeRoll',
-  'happy',
-  'hearts',
-  'side',
-  'squint',
-  'surprised',
-  'wink',
-  'winkWacky',
-  'xDizzy',
-]
+// Body options (standing poses) - filter for ColorTee versions (simpler)
+const bodyOptions = indexData.bodyStanding.filter(b => b.includes('ColorTee'))
 
-const eyebrowOptions = [
-  'default',
-  'defaultNatural',
-  'flatNatural',
-  'raisedExcited',
-  'raisedExcitedNatural',
-  'sadConcerned',
-  'sadConcernedNatural',
-  'unibrowNatural',
-  'upDown',
-  'upDownNatural',
-  'angry',
-  'angryNatural',
-  'frownNatural',
-]
+// Head/Hair options
+const headOptions = indexData.head
 
-const mouthOptions = [
-  'default',
-  'concerned',
-  'disbelief',
-  'eating',
-  'grimace',
-  'sad',
-  'screamOpen',
-  'serious',
-  'smile',
-  'tongue',
-  'twinkle',
-  'vomit',
-]
+// Face options
+const faceOptions = indexData.face
 
-const topOptions = [
-  // Short hair
-  'shortFlat',
-  'shortRound',
-  'shortWaved',
-  'shortCurly',
-  'dreads01',
-  'dreads02',
-  'frizzle',
-  'shaggyMullet',
-  'shaggy',
-  'theCaesar',
-  'theCaesarAndSidePart',
-  'sides',
-  // Long hair
-  'bob',
-  'bun',
-  'curly',
-  'curvy',
-  'dreads',
-  'fro',
-  'froBand',
-  'frida',
-  'bigHair',
-  'miaWallace',
-  'longButNotTooLong',
-  'shavedSides',
-  'straight01',
-  'straight02',
-  'straightAndStrand',
-  // Hats
-  'hat',
-  'hijab',
-  'turban',
-  'winterHat1',
-  'winterHat02',
-  'winterHat03',
-  'winterHat04',
-]
+// Beard options (with empty for none)
+const beardOptions = ['', ...indexData.beard]
 
-const clothingOptions = [
-  'blazerShirt',
-  'blazerSweater',
-  'collarSweater',
-  'graphicShirt',
-  'hoodie',
-  'overall',
-  'shirtCrewNeck',
-  'shirtScoopNeck',
-  'shirtVNeck',
-]
-
-const accessoriesOptions = [
-  '',
-  'eyepatch',
-  'kurt',
-  'prescription01',
-  'prescription02',
-  'round',
-  'sunglasses',
-  'wayfarers',
-]
-
-const facialHairOptions = [
-  '',
-  'beardLight',
-  'beardMajestic',
-  'beardMedium',
-  'moustacheFancy',
-  'moustacheMagnum',
-]
+// Accessory options (with empty for none)
+const accessoryOptions = ['', ...indexData.accessory]
 
 // Color presets
 const skinColors = [
   '#FFDFC4',
   '#F0D5BE',
-  '#EECEB3',
-  '#E1B899',
-  '#D7A884',
+  '#D08B5B',
   '#C68642',
   '#8D5524',
-  '#4A3728',
-]
-
-const hairColors = [
-  '#090806',
-  '#2C222B',
-  '#3B3024',
-  '#4E433F',
-  '#6A4E42',
-  '#8D4A43',
-  '#B55239',
-  '#D6C4C2',
-  '#E5C100',
-  '#A8D8EA',
-  '#FF69B4',
+  '#5C3317',
+  '#3B2314',
+  '#2D1810',
 ]
 
 const clothingColors = [
@@ -160,14 +43,56 @@ const clothingColors = [
   '#2ECC71',
   '#3498DB',
   '#9B59B6',
-  '#1ABC9C',
+  '#6B9080',
   '#34495E',
+  '#1ABC9C',
   '#FF69B4',
   '#000000',
   '#FFFFFF',
 ]
 
+const pantsColors = [
+  '#2C3E50',
+  '#3D5A80',
+  '#1A1A2E',
+  '#4A4A4A',
+  '#8B4513',
+  '#2F4F4F',
+  '#191970',
+  '#000000',
+]
+
+const shoesColors = [
+  '#FFFFFF',
+  '#000000',
+  '#8B4513',
+  '#2F4F4F',
+  '#DC143C',
+  '#4169E1',
+  '#FFD700',
+  '#2ECC71',
+]
+
 export const categories: AvatarCategory[] = [
+  {
+    key: 'body',
+    label: 'Pose',
+    icon: '🧍',
+    options: bodyOptions,
+    colorKey: 'topColor',
+  },
+  {
+    key: 'head',
+    label: 'Haare',
+    icon: '💇',
+    options: headOptions,
+  },
+  {
+    key: 'face',
+    label: 'Gesicht',
+    icon: '😊',
+    options: faceOptions,
+  },
   {
     key: 'skinColor',
     label: 'Haut',
@@ -175,70 +100,52 @@ export const categories: AvatarCategory[] = [
     options: skinColors,
   },
   {
-    key: 'eyes',
-    label: 'Augen',
-    icon: '👁',
-    options: eyeOptions,
-  },
-  {
-    key: 'eyebrows',
-    label: 'Brauen',
-    icon: '🤨',
-    options: eyebrowOptions,
-  },
-  {
-    key: 'mouth',
-    label: 'Mund',
-    icon: '👄',
-    options: mouthOptions,
-  },
-  {
-    key: 'top',
-    label: 'Haare',
-    icon: '💇',
-    options: topOptions,
-    colorKey: 'hairColor',
-  },
-  {
-    key: 'clothing',
-    label: 'Kleidung',
+    key: 'topColor',
+    label: 'Shirt',
     icon: '👕',
-    options: clothingOptions,
-    colorKey: 'clothingColor',
+    options: clothingColors,
   },
   {
-    key: 'accessories',
+    key: 'pantsColor',
+    label: 'Hose',
+    icon: '👖',
+    options: pantsColors,
+  },
+  {
+    key: 'shoesColor',
+    label: 'Schuhe',
+    icon: '👟',
+    options: shoesColors,
+  },
+  {
+    key: 'accessory',
     label: 'Brille',
     icon: '👓',
-    options: accessoriesOptions,
-    colorKey: 'accessoriesColor',
+    options: accessoryOptions,
   },
   {
-    key: 'facialHair',
+    key: 'beard',
     label: 'Bart',
     icon: '🧔',
-    options: facialHairOptions,
-    colorKey: 'facialHairColor',
+    options: beardOptions,
   },
 ]
 
 export const colorPresets = {
   skin: skinColors,
-  hair: hairColors,
   clothing: clothingColors,
-  accessories: ['#000000', '#4A3728', '#808080', '#FFD700'],
+  pants: pantsColors,
+  shoes: shoesColors,
 }
 
 export function useAvatarOptions() {
   return {
     categories,
     colorPresets,
-    eyeOptions,
-    eyebrowOptions,
-    mouthOptions,
-    topOptions,
-    clothingOptions,
-    accessoriesOptions,
-    facialHairOptions,
+    bodyOptions,
+    headOptions,
+    faceOptions,
+    beardOptions,
+    accessoryOptions,
   }
 }

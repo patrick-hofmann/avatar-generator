@@ -48,12 +48,12 @@ test.describe('Avatar Generator', () => {
       await page.goto('/testuser3')
       await expect(page.locator('.category-tabs')).toBeVisible()
       const tabs = page.locator('.category-tab')
-      await expect(tabs).toHaveCount(8)
+      await expect(tabs).toHaveCount(9)
     })
 
     test('should switch categories when clicking tabs', async ({ page }) => {
       await page.goto('/testuser4')
-      // Click on eyes category (second tab)
+      // Click on head/hair category (second tab)
       await page.locator('.category-tab').nth(1).click()
       // Part selector should be visible
       await expect(page.locator('.part-nav')).toBeVisible()
@@ -61,7 +61,7 @@ test.describe('Avatar Generator', () => {
 
     test('should cycle through options with arrows', async ({ page }) => {
       await page.goto('/testuser5')
-      // Click on eyes category
+      // Click on head category
       await page.locator('.category-tab').nth(1).click()
 
       const partLabel = page.locator('.part-label')
@@ -76,7 +76,9 @@ test.describe('Avatar Generator', () => {
 
     test('should display color selector for skin color category', async ({ page }) => {
       await page.goto('/testuser6')
-      // First category is skin color - should show color swatch
+      // Click on skin color category (4th tab - index 3)
+      await page.locator('.category-tab').nth(3).click()
+      // Should show color swatch
       await expect(page.locator('.color-swatch')).toBeVisible()
       // Should show counter for 8 skin colors
       await expect(page.locator('.part-counter')).toContainText('/ 8')
@@ -84,11 +86,12 @@ test.describe('Avatar Generator', () => {
 
     test('should cycle through colors with arrows', async ({ page }) => {
       await page.goto('/testuser7')
-      // First category is skin color
+      // Click on skin color category (4th tab - index 3)
+      await page.locator('.category-tab').nth(3).click()
       const colorSwatch = page.locator('.color-swatch')
       const initialColor = await colorSwatch.evaluate(el => getComputedStyle(el).backgroundColor)
 
-      // Click next arrow (second .nav-arrow because there's only one selector for skin)
+      // Click next arrow
       await page.locator('.nav-arrow').last().click()
       const newColor = await colorSwatch.evaluate(el => getComputedStyle(el).backgroundColor)
 
@@ -104,10 +107,10 @@ test.describe('Avatar Generator', () => {
       // Wait for avatar to load
       await expect(page.locator('.avatar-preview')).toBeVisible()
 
-      // Click on clothing category (6th tab)
-      await page.locator('.category-tab').nth(5).click()
+      // Click on shirt color category (5th tab - index 4)
+      await page.locator('.category-tab').nth(4).click()
 
-      // Click next to change clothing
+      // Click next to change shirt color
       await page.locator('.nav-arrow').last().click()
 
       // Wait for debounced save

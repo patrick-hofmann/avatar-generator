@@ -5,14 +5,15 @@ describe('useAvatarOptions', () => {
   describe('categories', () => {
     it('should have all required categories', () => {
       const categoryKeys = categories.map(c => c.key)
+      expect(categoryKeys).toContain('body')
+      expect(categoryKeys).toContain('head')
+      expect(categoryKeys).toContain('face')
       expect(categoryKeys).toContain('skinColor')
-      expect(categoryKeys).toContain('eyes')
-      expect(categoryKeys).toContain('eyebrows')
-      expect(categoryKeys).toContain('mouth')
-      expect(categoryKeys).toContain('top')
-      expect(categoryKeys).toContain('clothing')
-      expect(categoryKeys).toContain('accessories')
-      expect(categoryKeys).toContain('facialHair')
+      expect(categoryKeys).toContain('topColor')
+      expect(categoryKeys).toContain('pantsColor')
+      expect(categoryKeys).toContain('shoesColor')
+      expect(categoryKeys).toContain('accessory')
+      expect(categoryKeys).toContain('beard')
     })
 
     it('should have icons for all categories', () => {
@@ -30,12 +31,8 @@ describe('useAvatarOptions', () => {
       })
     })
 
-    it('should have colorKey for categories that support colors', () => {
-      const topCategory = categories.find(c => c.key === 'top')
-      expect(topCategory?.colorKey).toBe('hairColor')
-
-      const clothingCategory = categories.find(c => c.key === 'clothing')
-      expect(clothingCategory?.colorKey).toBe('clothingColor')
+    it('should have correct number of categories', () => {
+      expect(categories.length).toBe(9)
     })
   })
 
@@ -45,14 +42,19 @@ describe('useAvatarOptions', () => {
       expect(colorPresets.skin.length).toBeGreaterThan(0)
     })
 
-    it('should have hair color presets', () => {
-      expect(colorPresets.hair).toBeDefined()
-      expect(colorPresets.hair.length).toBeGreaterThan(0)
-    })
-
     it('should have clothing color presets', () => {
       expect(colorPresets.clothing).toBeDefined()
       expect(colorPresets.clothing.length).toBeGreaterThan(0)
+    })
+
+    it('should have pants color presets', () => {
+      expect(colorPresets.pants).toBeDefined()
+      expect(colorPresets.pants.length).toBeGreaterThan(0)
+    })
+
+    it('should have shoes color presets', () => {
+      expect(colorPresets.shoes).toBeDefined()
+      expect(colorPresets.shoes.length).toBeGreaterThan(0)
     })
 
     it('should have valid hex color format', () => {
@@ -71,10 +73,11 @@ describe('useAvatarOptions', () => {
 
     it('should return individual option arrays', () => {
       const options = useAvatarOptions()
-      expect(options.eyeOptions).toBeDefined()
-      expect(options.mouthOptions).toBeDefined()
-      expect(options.topOptions).toBeDefined()
-      expect(options.clothingOptions).toBeDefined()
+      expect(options.bodyOptions).toBeDefined()
+      expect(options.headOptions).toBeDefined()
+      expect(options.faceOptions).toBeDefined()
+      expect(options.beardOptions).toBeDefined()
+      expect(options.accessoryOptions).toBeDefined()
     })
   })
 })

@@ -4,25 +4,22 @@ import { createDefaultAvatar, defaultAvatarValues } from '~/server/utils/avatarD
 describe('avatarDefaults', () => {
   describe('defaultAvatarValues', () => {
     it('should have all required properties', () => {
+      expect(defaultAvatarValues).toHaveProperty('body')
+      expect(defaultAvatarValues).toHaveProperty('head')
+      expect(defaultAvatarValues).toHaveProperty('face')
+      expect(defaultAvatarValues).toHaveProperty('beard')
+      expect(defaultAvatarValues).toHaveProperty('accessory')
       expect(defaultAvatarValues).toHaveProperty('skinColor')
-      expect(defaultAvatarValues).toHaveProperty('eyes')
-      expect(defaultAvatarValues).toHaveProperty('eyebrows')
-      expect(defaultAvatarValues).toHaveProperty('mouth')
-      expect(defaultAvatarValues).toHaveProperty('top')
-      expect(defaultAvatarValues).toHaveProperty('hairColor')
-      expect(defaultAvatarValues).toHaveProperty('clothing')
-      expect(defaultAvatarValues).toHaveProperty('clothingColor')
-      expect(defaultAvatarValues).toHaveProperty('accessories')
-      expect(defaultAvatarValues).toHaveProperty('accessoriesColor')
-      expect(defaultAvatarValues).toHaveProperty('facialHair')
-      expect(defaultAvatarValues).toHaveProperty('facialHairColor')
+      expect(defaultAvatarValues).toHaveProperty('topColor')
+      expect(defaultAvatarValues).toHaveProperty('pantsColor')
+      expect(defaultAvatarValues).toHaveProperty('shoesColor')
     })
 
     it('should have valid default values', () => {
       expect(defaultAvatarValues.skinColor).toMatch(/^#[0-9A-Fa-f]{6}$/)
-      expect(defaultAvatarValues.eyes).toBe('default')
-      expect(defaultAvatarValues.mouth).toBe('smile')
-      expect(defaultAvatarValues.clothing).toBe('hoodie')
+      expect(defaultAvatarValues.body).toBe('RestingColorTee')
+      expect(defaultAvatarValues.head).toBe('ShortOne')
+      expect(defaultAvatarValues.face).toBe('Smile')
     })
   })
 
@@ -35,8 +32,8 @@ describe('avatarDefaults', () => {
     it('should include all default values', () => {
       const avatar = createDefaultAvatar('testuser')
       expect(avatar.skinColor).toBe(defaultAvatarValues.skinColor)
-      expect(avatar.eyes).toBe(defaultAvatarValues.eyes)
-      expect(avatar.mouth).toBe(defaultAvatarValues.mouth)
+      expect(avatar.body).toBe(defaultAvatarValues.body)
+      expect(avatar.face).toBe(defaultAvatarValues.face)
     })
 
     it('should set createdAt and updatedAt timestamps', () => {

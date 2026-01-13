@@ -3,31 +3,26 @@ export interface Avatar {
   createdAt: string
   updatedAt: string
 
-  // Gesicht
+  // Body pose (standing)
+  body: string
+
+  // Head/Hair style
+  head: string
+
+  // Face expression
+  face: string
+
+  // Optional beard
+  beard: string
+
+  // Optional accessory (glasses)
+  accessory: string
+
+  // Colors
   skinColor: string
-
-  // Augen & Augenbrauen
-  eyes: string
-  eyebrows: string
-
-  // Mund
-  mouth: string
-
-  // Haare/Kopfbedeckung
-  top: string
-  hairColor: string
-
-  // Kleidung
-  clothing: string
-  clothingColor: string
-
-  // Accessoires (optional)
-  accessories: string
-  accessoriesColor: string
-
-  // Bart (optional)
-  facialHair: string
-  facialHairColor: string
+  topColor: string
+  pantsColor: string
+  shoesColor: string
 }
 
 export type AvatarUpdate = Partial<Omit<Avatar, 'name' | 'createdAt' | 'updatedAt'>>

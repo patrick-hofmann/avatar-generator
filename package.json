@@ -15,8 +15,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@dicebear/collection": "^9.2.4",
-    "@dicebear/core": "^9.2.4",
+    "@opeepsfun/open-peeps": "^1.0.6",
     "@vueuse/core": "^14.1.0",
     "nuxt": "^4.2.2",
     "vue": "^3.5.26",
