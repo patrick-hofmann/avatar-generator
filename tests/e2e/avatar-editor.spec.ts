@@ -74,20 +74,25 @@ test.describe('Avatar Generator', () => {
       expect(newText).not.toBe(initialText)
     })
 
-    test('should display color picker for skin color category', async ({ page }) => {
+    test('should display color selector for skin color category', async ({ page }) => {
       await page.goto('/testuser6')
-      // First category is skin color
-      await expect(page.locator('.color-picker')).toBeVisible()
-      await expect(page.locator('.color-circle')).toHaveCount(8)
+      // First category is skin color - should show color swatch
+      await expect(page.locator('.color-swatch')).toBeVisible()
+      // Should show counter for 8 skin colors
+      await expect(page.locator('.part-counter')).toContainText('/ 8')
     })
 
-    test('should change color when clicking color circle', async ({ page }) => {
+    test('should cycle through colors with arrows', async ({ page }) => {
       await page.goto('/testuser7')
-      // Click second color circle
-      const colorCircles = page.locator('.color-circle')
-      await colorCircles.nth(1).click()
-      // Second circle should be selected
-      await expect(colorCircles.nth(1)).toHaveClass(/selected/)
+      // First category is skin color
+      const colorSwatch = page.locator('.color-swatch')
+      const initialColor = await colorSwatch.evaluate(el => getComputedStyle(el).backgroundColor)
+
+      // Click next arrow (second .nav-arrow because there's only one selector for skin)
+      await page.locator('.nav-arrow').last().click()
+      const newColor = await colorSwatch.evaluate(el => getComputedStyle(el).backgroundColor)
+
+      expect(newColor).not.toBe(initialColor)
     })
   })
 

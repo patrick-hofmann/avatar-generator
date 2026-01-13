@@ -18,7 +18,13 @@ const currentValue = computed(() => {
 
 // Get the current color value for categories that have colors
 const currentColorValue = computed(() => {
-  if (!avatar.value || !currentCategory.value?.colorKey) return ''
+  if (!avatar.value || !currentCategory.value) return ''
+  // For skinColor category, the value IS the color
+  if (currentCategory.value.key === 'skinColor') {
+    return avatar.value.skinColor
+  }
+  // For other categories, use the colorKey
+  if (!currentCategory.value.colorKey) return ''
   return avatar.value[currentCategory.value.colorKey as keyof typeof avatar.value] as string
 })
 
@@ -40,8 +46,8 @@ const isColorOnlyCategory = computed(() => {
   return currentCategory.value?.key === 'skinColor'
 })
 
-// Check if current category has a color picker
-const hasColorPicker = computed(() => {
+// Check if current category has colors
+const hasColors = computed(() => {
   if (!currentCategory.value) return false
   return currentCategory.value.key === 'skinColor' || !!currentCategory.value.colorKey
 })
@@ -94,29 +100,34 @@ function handleColorUpdate(color: string) {
         </p>
       </section>
 
-      <!-- Part Selector (if not color-only category) -->
-      <section
-        v-if="!isColorOnlyCategory"
-        class="selector"
-      >
-        <PartSelector
-          :options="currentCategory.options"
-          :value="currentValue"
-          :label="currentCategory.label"
-          @update="handlePartUpdate"
-        />
-      </section>
+      <!-- Selectors Container -->
+      <section class="selectors">
+        <!-- Style Selector (if not color-only category) -->
+        <div
+          v-if="!isColorOnlyCategory"
+          class="selector"
+        >
+          <PartSelector
+            :options="currentCategory.options"
+            :value="currentValue"
+            :label="currentCategory.label"
+            @update="handlePartUpdate"
+          />
+        </div>
 
-      <!-- Color Picker -->
-      <section
-        v-if="hasColorPicker && currentColorPresets.length > 0"
-        class="color-section"
-      >
-        <ColorPicker
-          :colors="currentColorPresets"
-          :value="isColorOnlyCategory ? currentValue : currentColorValue"
-          @update="handleColorUpdate"
-        />
+        <!-- Color Selector -->
+        <div
+          v-if="hasColors && currentColorPresets.length > 0"
+          class="selector"
+        >
+          <PartSelector
+            :options="currentColorPresets"
+            :value="currentColorValue"
+            label="Farbe"
+            is-color
+            @update="handleColorUpdate"
+          />
+        </div>
       </section>
 
       <!-- Category Tabs -->
@@ -154,16 +165,16 @@ function handleColorUpdate(color: string) {
   color: var(--text-primary);
 }
 
-.selector {
-  flex: 0 0 auto;
-  padding: var(--space-sm) 0;
-}
-
-.color-section {
+.selectors {
   flex: 1 1 auto;
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   justify-content: center;
+  gap: var(--space-lg);
+}
+
+.selector {
+  flex: 0 0 auto;
 }
 
 .loading {

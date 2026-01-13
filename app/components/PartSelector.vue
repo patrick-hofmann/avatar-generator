@@ -3,6 +3,7 @@ const props = defineProps<{
   options: string[]
   value: string
   label: string
+  isColor?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -31,6 +32,9 @@ function next() {
 }
 
 const displayLabel = computed(() => {
+  if (props.isColor) {
+    return props.value || props.options[0] || ''
+  }
   const current = props.value || props.options[0] || ''
   // Make label more readable
   return current
@@ -51,7 +55,15 @@ const displayLabel = computed(() => {
       >
         ◀
       </button>
-      <span class="part-label">{{ displayLabel }}</span>
+      <span
+        v-if="isColor"
+        class="color-swatch"
+        :style="{ backgroundColor: displayLabel }"
+      />
+      <span
+        v-else
+        class="part-label"
+      >{{ displayLabel }}</span>
       <button
         class="nav-arrow"
         type="button"
@@ -88,6 +100,15 @@ const displayLabel = computed(() => {
   font-size: 1rem;
   color: var(--text-primary);
   font-weight: 500;
+}
+
+.color-swatch {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  border: 3px solid var(--bg-secondary);
+  box-shadow: 0 2px 8px var(--shadow);
 }
 
 .part-counter {
