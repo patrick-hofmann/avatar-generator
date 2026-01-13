@@ -1,5 +1,5 @@
 import type { Avatar } from '../../../shared/types/avatar'
-import { createDefaultAvatar } from '../../utils/avatarDefaults'
+import { createDefaultAvatar, defaultAvatarValues } from '../../utils/avatarDefaults'
 
 export default defineEventHandler(async (event) => {
   const name = getRouterParam(event, 'name')?.toLowerCase()
@@ -12,11 +12,28 @@ export default defineEventHandler(async (event) => {
   }
 
   const storage = useStorage('avatars')
-  const avatar = await storage.getItem<Avatar>(`${name}.json`)
+  const stored = await storage.getItem<Partial<Avatar>>(`${name}.json`)
 
-  if (!avatar) {
+  if (!stored) {
     // Return default avatar for new names
     return createDefaultAvatar(name)
+  }
+
+  // Merge with defaults to handle schema migrations
+  const avatar: Avatar = {
+    name: stored.name || name,
+    createdAt: stored.createdAt || new Date().toISOString(),
+    updatedAt: stored.updatedAt || new Date().toISOString(),
+    ...defaultAvatarValues,
+    body: stored.body || defaultAvatarValues.body,
+    head: stored.head || defaultAvatarValues.head,
+    face: stored.face || defaultAvatarValues.face,
+    beard: stored.beard ?? defaultAvatarValues.beard,
+    accessory: stored.accessory ?? defaultAvatarValues.accessory,
+    skinColor: stored.skinColor || defaultAvatarValues.skinColor,
+    topColor: stored.topColor || defaultAvatarValues.topColor,
+    pantsColor: stored.pantsColor || defaultAvatarValues.pantsColor,
+    shoesColor: stored.shoesColor || defaultAvatarValues.shoesColor,
   }
 
   return avatar

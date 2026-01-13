@@ -185,7 +185,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="head"
         id="Head"
-        :transform="`translate(${342 + getHeadOffset(avatar.head).x}, ${190 + getHeadOffset(avatar.head).y})`"
+        :transform="`translate(${570 + getHeadOffset(avatar.head).x}, ${-80 + getHeadOffset(avatar.head).y})`"
       >
         <path
           v-for="(path, i) in head.paths"
@@ -199,7 +199,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="face"
         id="Face"
-        transform="translate(531, 366)"
+        transform="translate(760, 95)"
       >
         <path
           v-for="(path, i) in face.paths"
@@ -213,7 +213,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="beard"
         id="Beard"
-        :transform="`translate(${495 + getBeardOffset(avatar.beard).x}, ${518 + getBeardOffset(avatar.beard).y})${getBeardOffset(avatar.beard).scale ? ` scale(${getBeardOffset(avatar.beard).scale})` : ''}`"
+        :transform="`translate(${725 + getBeardOffset(avatar.beard).x}, ${250 + getBeardOffset(avatar.beard).y})${getBeardOffset(avatar.beard).scale ? ` scale(${getBeardOffset(avatar.beard).scale})` : ''}`"
       >
         <path
           v-for="(path, i) in beard.paths"
@@ -227,7 +227,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="accessory"
         id="Accessory"
-        :transform="`translate(${419 + getAccessoryOffset(avatar.accessory).x}, ${421 + getAccessoryOffset(avatar.accessory).y})`"
+        :transform="`translate(${650 + getAccessoryOffset(avatar.accessory).x}, ${150 + getAccessoryOffset(avatar.accessory).y})`"
       >
         <path
           v-for="(path, i) in accessory.paths"
