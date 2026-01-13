@@ -1,7 +1,7 @@
 import type { Avatar } from '../../shared/types/avatar'
 
 export const defaultAvatarValues: Omit<Avatar, 'name' | 'createdAt' | 'updatedAt'> = {
-  body: 'RestingColorTee',
+  body: 'RestingColorPants',
   head: 'ShortOne',
   face: 'Smile',
   beard: '',

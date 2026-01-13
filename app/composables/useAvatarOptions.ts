@@ -9,8 +9,8 @@ export interface AvatarCategory {
   colorKey?: keyof AvatarUpdate
 }
 
-// Body options (standing poses) - filter for ColorTee versions (simpler)
-const bodyOptions = indexData.bodyStanding.filter(b => b.includes('ColorTee'))
+// Body options (standing poses) - filter for ColorPants versions (shirt is colorable)
+const bodyOptions = indexData.bodyStanding.filter(b => b.includes('ColorPants'))
 
 // Head/Hair options
 const headOptions = indexData.head
@@ -79,7 +79,6 @@ export const categories: AvatarCategory[] = [
     label: 'Pose',
     icon: '🧍',
     options: bodyOptions,
-    colorKey: 'topColor',
   },
   {
     key: 'head',
@@ -104,12 +103,6 @@ export const categories: AvatarCategory[] = [
     label: 'Shirt',
     icon: '👕',
     options: clothingColors,
-  },
-  {
-    key: 'pantsColor',
-    label: 'Hose',
-    icon: '👖',
-    options: pantsColors,
   },
   {
     key: 'shoesColor',

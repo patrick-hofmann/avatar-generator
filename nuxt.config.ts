@@ -16,8 +16,12 @@ export default defineNuxtConfig({
   nitro: {
     storage: {
       avatars: {
-        driver: 'fs',
-        base: './data/avatars',
+        driver: 's3',
+        accessKeyId: process.env.S3_KEY,
+        secretAccessKey: process.env.S3_SECRET,
+        endpoint: 'https://sos-at-vie-1.exo.io',
+        bucket: 'avatar',
+        region: 'at-vie-1',
       },
     },
   },

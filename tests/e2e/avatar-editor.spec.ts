@@ -48,7 +48,7 @@ test.describe('Avatar Generator', () => {
       await page.goto('/testuser3')
       await expect(page.locator('.category-tabs')).toBeVisible()
       const tabs = page.locator('.category-tab')
-      await expect(tabs).toHaveCount(9)
+      await expect(tabs).toHaveCount(8)
     })
 
     test('should switch categories when clicking tabs', async ({ page }) => {

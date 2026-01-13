@@ -167,7 +167,7 @@ function getAccessoryOffset(name: string) {
   <div class="avatar-preview">
     <svg
       v-if="avatar && body"
-      :viewBox="body.viewBox"
+      :viewBox="`0 -400 ${body.width} ${body.height + 400}`"
       class="avatar-svg"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -185,7 +185,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="head"
         id="Head"
-        :transform="`translate(${570 + getHeadOffset(avatar.head).x}, ${-80 + getHeadOffset(avatar.head).y})`"
+        :transform="`translate(${480 + getHeadOffset(avatar.head).x}, ${-400 + getHeadOffset(avatar.head).y})`"
       >
         <path
           v-for="(path, i) in head.paths"
@@ -199,7 +199,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="face"
         id="Face"
-        transform="translate(760, 95)"
+        transform="translate(670, -225)"
       >
         <path
           v-for="(path, i) in face.paths"
@@ -213,7 +213,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="beard"
         id="Beard"
-        :transform="`translate(${725 + getBeardOffset(avatar.beard).x}, ${250 + getBeardOffset(avatar.beard).y})${getBeardOffset(avatar.beard).scale ? ` scale(${getBeardOffset(avatar.beard).scale})` : ''}`"
+        :transform="`translate(${635 + getBeardOffset(avatar.beard).x}, ${-70 + getBeardOffset(avatar.beard).y})${getBeardOffset(avatar.beard).scale ? ` scale(${getBeardOffset(avatar.beard).scale})` : ''}`"
       >
         <path
           v-for="(path, i) in beard.paths"
@@ -227,7 +227,7 @@ function getAccessoryOffset(name: string) {
       <g
         v-if="accessory"
         id="Accessory"
-        :transform="`translate(${650 + getAccessoryOffset(avatar.accessory).x}, ${150 + getAccessoryOffset(avatar.accessory).y})`"
+        :transform="`translate(${560 + getAccessoryOffset(avatar.accessory).x}, ${-170 + getAccessoryOffset(avatar.accessory).y})`"
       >
         <path
           v-for="(path, i) in accessory.paths"
@@ -254,14 +254,14 @@ function getAccessoryOffset(name: string) {
 }
 
 .avatar-svg {
-  width: 200px;
+  width: 100%;
+  max-width: 400px;
   height: auto;
-  max-height: 300px;
 }
 
 .avatar-placeholder {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 400px;
   border-radius: var(--radius-lg);
   background: var(--bg-secondary);
   display: flex;

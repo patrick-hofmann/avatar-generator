@@ -20,7 +20,7 @@ const currentValue = computed(() => {
 const isColorCategory = computed(() => {
   if (!currentCategory.value) return false
   const key = currentCategory.value.key
-  return key === 'skinColor' || key === 'topColor' || key === 'pantsColor' || key === 'shoesColor'
+  return key === 'skinColor' || key === 'topColor' || key === 'shoesColor'
 })
 
 function selectCategory(index: number) {
@@ -90,16 +90,18 @@ function handlePartUpdate(value: string) {
   flex-direction: column;
   min-height: 100dvh;
   padding: var(--space-md);
-  max-width: 480px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .preview {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-sm) 0;
+  justify-content: center;
+  padding: var(--space-md) 0;
+  min-height: 50vh;
 }
 
 .avatar-name {

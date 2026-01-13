@@ -25,37 +25,53 @@ export function useAvatar(name: MaybeRef<string>) {
     }
   }
 
-  async function saveAvatar(updates: AvatarUpdate) {
-    if (!avatar.value) return
+  // Accumulate pending changes for batch save
+  const pendingChanges = ref<AvatarUpdate>({})
+
+  async function saveAvatar() {
+    if (!avatar.value || Object.keys(pendingChanges.value).length === 0) return
+
+    const updates = { ...pendingChanges.value }
+    pendingChanges.value = {}
 
     saving.value = true
     try {
-      const data = await $fetch<Avatar>(`/api/avatars/${nameValue.value}`, {
+      await $fetch(`/api/avatars/${nameValue.value}`, {
         method: 'PUT',
         body: updates,
       })
-      avatar.value = data
+      // Don't update local state - we already have the optimistic update
     }
     catch (e) {
       error.value = e as Error
+      // On error, refetch to get correct state
+      fetchAvatar()
     }
     finally {
       saving.value = false
     }
   }
 
-  const debouncedSave = useDebounceFn((updates: AvatarUpdate) => {
-    saveAvatar(updates)
+  const debouncedSave = useDebounceFn(() => {
+    saveAvatar()
   }, 500)
 
   function updateAvatar(key: keyof AvatarUpdate, value: string) {
     if (!avatar.value) return
 
+    // Optimistic local update
     avatar.value = {
       ...avatar.value,
       [key]: value,
     }
-    debouncedSave({ [key]: value })
+
+    // Accumulate changes
+    pendingChanges.value = {
+      ...pendingChanges.value,
+      [key]: value,
+    }
+
+    debouncedSave()
   }
 
   // Watch for name changes
